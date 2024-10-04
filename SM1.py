@@ -8,7 +8,7 @@ def solve_llp(C: list, A: list, b: list, eps= 1e-3, res="max"):
     tableau = initialize_tableau(C, A, b, res)
     try:
         solution, answers = simplex_method(tableau, b, eps)
-        print(solution, answers, sep="\n")
+        print(solution if res=="max" else -1*solution, answers, sep="\n")
     except Exception as e:
         print(repr(e))
 
@@ -89,7 +89,7 @@ def simplex_method(tableau: list, b: list, eps):
 
     x = []
     for i in positionOfVariables:
-        x += [round(b[i-1], int(-1*math.log10(eps)))]
+        x += [round(b[i-1], int(-1*math.log10(eps)))] if i != 0 else [0]
     return round(solution, int(-1*math.log10(eps))), x
 
 
@@ -107,6 +107,7 @@ def find_min(row: list):
 # C = [5, 4]
 # A = [[6, 4], [1, 2], [-1, 2], [0, 1]]
 # b = [24, 6, 1, 2]
+# solve_llp(C, A, b)
 #Answer
 # max z = 5*x1 + 4*x2
 # subject to the constraints:
@@ -118,9 +119,10 @@ def find_min(row: list):
 # [3.0, 1.5]
 
 #2
-C = [10, 20]
-A = [[-1, 2], [1, 1], [5, 3]]
-b = [15, 12, 45]
+# C = [10, 20]
+# A = [[-1, 2], [1, 1], [5, 3]]
+# b = [15, 12, 45]
+# solve_llp(C, A, b)
 #Answer
 # max z = 10*x1 + 20*x2
 # subject to the constraints:
@@ -129,4 +131,35 @@ b = [15, 12, 45]
 # 5*x1 + 3*x2 <= 45
 # 210.0
 # [3.0, 9.0]
-solve_llp(C, A, b)
+
+
+#3
+# C = [9, 10, 16]
+# A = [[18, 15, 12], [6, 4, 8], [5, 3, 3]]
+# b = [360, 192, 180]
+# solve_llp(C, A, b)
+# Answer
+# max z = 9*x1 + 10*x2 + 16*x3
+# subject to the constraints:
+# 18*x1 + 15*x2 + 12*x3 <= 360
+# 6*x1 + 4*x2 + 8*x3 <= 192
+# 5*x1 + 3*x2 + 3*x3 <= 180
+# 400.0
+# [0, 8.0, 20.0]
+
+
+#4
+# C = [-2, 2, -6]
+# A = [[2, 1, -2], [1, 2, 4], [1, -1, 2]]
+# b = [24, 23, 10]
+# solve_llp(C, A, b, res="min")
+# Answer
+# min z = -2*x1 + 2*x2 - 6*x3
+# subject to the constraints:
+# 2*x1 + 1*x2 - 2*x3 <= 24
+# 1*x1 + 2*x2 + 4*x3 <= 23
+# 1*x1 - 1*x2 + 2*x3 <= 10
+# -30.75
+# [0, 0.75, 5.375]
+
+
